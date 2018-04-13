@@ -1,13 +1,12 @@
 # Speedmon
 
-Simple tool for running `speedtest.py` and then reporting results to CloudWatch.
-Designed for running via Cron on EdgerouterX to monitor home ISP network speed.
-As it happens, my provider advertises 350M connection, but reality is far from it...
+This is simple speedtest monitoring tool that is forked from https://github.com/surol/speedtest-cli.
+Only addittions is reporting, which instead of reporting results to console, sends them to CloudWatch.
 
 ## Compile
 
-
-	GOOS="linux" GOARCH="mipsle" go build -o speedmon
+	GOOS="linux" GOARCH="mipsle" go build -o build/speedmon  # For EdgeRouter X
+	GOOS="linux" GOARCH="mips64" go build -o build/speedmon  # For Unifi USG
 
 ## Setup
 
