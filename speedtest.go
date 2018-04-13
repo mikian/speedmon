@@ -103,8 +103,8 @@ func reportMeasurement(server *speedtest.Server, download int, upload int) {
 					&cloudwatch.MetricDatum{
 							MetricName: aws.String("DownloadSpeed"),
 							Timestamp:  aws.Time(timestamp),
-							Unit:       aws.String(cloudwatch.StandardUnitBitsSecond),
-							Value:      aws.Float64(float64(download)),
+							Unit:       aws.String(cloudwatch.StandardUnitMegabitsSecond),
+							Value:      aws.Float64(float64(download) / (1 << 17)),
 							Dimensions: []*cloudwatch.Dimension{
 									&cloudwatch.Dimension{
 											Name:  aws.String("ServerName"),
@@ -115,8 +115,8 @@ func reportMeasurement(server *speedtest.Server, download int, upload int) {
 					&cloudwatch.MetricDatum{
 							MetricName: aws.String("UploadSpeed"),
 							Timestamp:  aws.Time(timestamp),
-							Unit:       aws.String(cloudwatch.StandardUnitBitsSecond),
-							Value:      aws.Float64(float64(upload)),
+							Unit:       aws.String(cloudwatch.StandardUnitMegabitsSecond),
+							Value:      aws.Float64(float64(upload) / (1 << 17)),
 							Dimensions: []*cloudwatch.Dimension{
 									&cloudwatch.Dimension{
 											Name:  aws.String("ServerName"),
