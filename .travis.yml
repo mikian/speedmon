@@ -1,7 +1,12 @@
+language: go
+
+script: rake
+
 deploy:
   provider: releases
   api_key:
-    secure: DvJ7eAWLqq75yAEobyiJtlL/GazjoHPo4Y4uL7f/diJQF5mwJg6q7/wOvjsid6zg2JApPv18s43SED0z8aVH8KWhzj0ClLo01CPIjkdjp1BIjiyCVHvA+Qkvk3VmSaPj0yjf+2uegSMsQQKRVguWnauAPrKEKFB4O/IU7zwREPZj5G7JdP+2W/jQKiELRQVDwdoVq2HibQSF/VWTVQUT8Np4vaQvUp1jrk6K6Gdft2Zv+Vp4rS/H9++io3M/R7TpeJqOPCvmctBENqZ33UOjmEPnYy/RnM8GCT8I3vbN2c09kxVaoCDnEYqG4IEH5p1jYO0uxxNydXYrx3fDfo8a+oxcEB1tPEaMPUWBrqWxRJyeyebeDhrv2x0QFUbRjVAiCg8zi2S3HgUQUmG//M6CFuUTWrLp8QgHU/UBhYIqsBdzctsDAp97nyyOd4278paNoyTwLE3Lp5YCww8yNKgzB1qS4ZY62ALayNOdWG/MflYil4Uff3u98AtZeMrLlc6x5svjKR5ElTlV4OHBE8ljRgYwkW9PxYNVg/RGVfGMNfpRTuiHnn5XG7bqAysodeDFfBE5xEFPzZvYDDwzigo6tDfp6s/jDAwWSdM4uPSyWZZx+yt21vEZm+4IeE/lgOrvLrLtjmZecyMSMmvaZQWhlsaGwYxQ4oosQks8XuF3dyc=
-  file: build/*
+  file_glob: true
+  file: directory/*
+  skip_cleanup: true
   on:
-    repo: mikian/speedmon
+    tags: true
