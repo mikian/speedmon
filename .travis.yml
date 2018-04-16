@@ -1,6 +1,13 @@
 language: go
 
-script: rake
+env:
+  - GOOS="linux" GOARCH="mipsle"
+  - GOOS="linux" GOARCH="mips64"
+
+script: go build -o build/speedmon_${GOOS}_${GOARCH}
+
+before_deploy:
+  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 
 deploy:
   provider: releases
