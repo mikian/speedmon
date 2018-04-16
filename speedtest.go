@@ -86,6 +86,10 @@ func reportMeasurement(server *speedtest.Server, download int, upload int) {
 		server.Latency / time.Millisecond)
 
 	timestamp := time.Now()
+	hostname, err := os.Hostname()
+	if err != nil {
+		log.Fatal(err)
+	}
 	result, err := svc.PutMetricData(&cloudwatch.PutMetricDataInput{
 			MetricData: []*cloudwatch.MetricDatum{
 					&cloudwatch.MetricDatum{
@@ -121,6 +125,42 @@ func reportMeasurement(server *speedtest.Server, download int, upload int) {
 									&cloudwatch.Dimension{
 											Name:  aws.String("ServerName"),
 											Value: aws.String(server.Name),
+									},
+							},
+					},
+					&cloudwatch.MetricDatum{
+							MetricName: aws.String("Ping"),
+							Timestamp:  aws.Time(timestamp),
+							Unit:       aws.String(cloudwatch.StandardUnitMilliseconds),
+							Value:      aws.Float64(float64(server.Latency / time.Millisecond)),
+							Dimensions: []*cloudwatch.Dimension{
+									&cloudwatch.Dimension{
+											Name:  aws.String("Host"),
+											Value: aws.String(hostname),
+									},
+							},
+					},
+					&cloudwatch.MetricDatum{
+							MetricName: aws.String("DownloadSpeed"),
+							Timestamp:  aws.Time(timestamp),
+							Unit:       aws.String(cloudwatch.StandardUnitMegabitsSecond),
+							Value:      aws.Float64(float64(download) / (1 << 17)),
+							Dimensions: []*cloudwatch.Dimension{
+									&cloudwatch.Dimension{
+											Name:  aws.String("Host"),
+											Value: aws.String(hostname),
+									},
+							},
+					},
+					&cloudwatch.MetricDatum{
+							MetricName: aws.String("UploadSpeed"),
+							Timestamp:  aws.Time(timestamp),
+							Unit:       aws.String(cloudwatch.StandardUnitMegabitsSecond),
+							Value:      aws.Float64(float64(upload) / (1 << 17)),
+							Dimensions: []*cloudwatch.Dimension{
+									&cloudwatch.Dimension{
+											Name:  aws.String("Host"),
+											Value: aws.String(hostname),
 									},
 							},
 					},
