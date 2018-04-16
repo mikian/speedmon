@@ -4,16 +4,14 @@ env:
   - GOOS="linux" GOARCH="mipsle"
   - GOOS="linux" GOARCH="mips64"
 
-script: go build -o build/speedmon_${GOOS}_${GOARCH}
-
-before_deploy:
-  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-
-deploy:
-  provider: releases
-  api_key:
-  file_glob: true
-  file: directory/*
-  skip_cleanup: true
-  on:
-    tags: true
+jobs:
+  include:
+    - stage: Build
+      script: go build -o build/speedmon_${GOOS}_${GOARCH}
+    - stage: GitHub Release
+      script: skip
+      provider: releases
+        api_key:
+        file_glob: true
+        file: directory/*
+        skip_cleanup: true
