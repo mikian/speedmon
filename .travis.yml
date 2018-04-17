@@ -1,12 +1,6 @@
 language: go
 
-# script: rake all
-
-env:
-  - GOOS="linux" GOARCH="mipsle"
-  - GOOS="linux" GOARCH="mips64"
-
-script: go build -o build/speedmon_${GOOS}_${GOARCH}
+script: rake all
 
 before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
